@@ -1,0 +1,5 @@
+/backend/venv/
+.idea/
+__pycache__/
+/backend/dj_config.sh
+/backend/backend/settings/development.py
