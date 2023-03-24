@@ -1,12 +1,16 @@
 from django.db import models
 from treebeard.mp_tree import MP_Node
+from .managers import PublishedManager
 
 
 class Category(MP_Node):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
+    draft = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    published = PublishedManager()
 
     class Meta:
         verbose_name_plural = "Categories"

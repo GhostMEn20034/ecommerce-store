@@ -1,15 +1,16 @@
-from rest_framework import generics
+from rest_framework import generics, response
 from .serializers import CustomerSerializer
 from .models import Customer
+from .permissions import IsAuthenticatedAndOwner
 
 
-class AccountDetail(generics.RetrieveAPIView):
+class AccountDetail(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticatedAndOwner, ]
     queryset = Customer.objects.all().select_related('user').prefetch_related('addresses')
     serializer_class = CustomerSerializer
-    lookup_field = 'user'
 
     def get_object(self):
         queryset = self.filter_queryset(self.get_queryset())
         obj = queryset.get(user=self.request.user.id)
-        # obj = queryset.get(user=4)
+        print(self.request.data)
         return obj
